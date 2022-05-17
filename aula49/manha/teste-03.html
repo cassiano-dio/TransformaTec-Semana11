@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pesquisa por Endereço - ViaCEP</title>
+</head>
+<body>
+    <input type="text" id="uf" placeholder="Estado">
+    <input type="text" id="rua" placeholder="Rua">
+    <input type="text" id="cidade" placeholder="Cidade">
+
+    <input type="submit" id="pesquisa" value="Pesquisar" onclick="buscaEndereco()">
+</body>
+
+<script>
+
+    function buscaEndereco(){
+
+        let rua = document.getElementById("rua").value
+        let uf = document.getElementById("uf").value
+        let cidade = document.getElementById("cidade").value
+
+        console.log("UF: ",uf," Cidade: ",cidade, " Rua :", rua)
+
+        const url = `http://viacep.com.br/ws/${uf}/${cidade}/${rua}/json`
+
+        const encoded = encodeURI(url)
+
+        console.log("URL: ", url)
+        console.log("Encoded URL: ", encoded)
+
+        fetch(encoded)
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(err => console.log(err))
+    }
+
+</script>
+</html>
