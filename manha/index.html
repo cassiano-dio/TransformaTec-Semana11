@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teste API</title>
+</head>
+<body>
+    <p id="json"></p>
+    <p id="id"></p>
+    <p id="title"></p>
+</body>
+<script>
+    //consultando dados na API
+    //método fetch(url_do_endpoint_da_api)
+    fetch('https://jsonplaceholder.typicode.com/todos/12')
+    .then(
+        response => response.json()
+        )
+    .then(
+        (json) => {
+            console.log(json)
+            const id = json.id
+            const title = json.title
+            document.getElementById("json").innerHTML = "Resposta Objeto: " + JSON.stringify(json)
+            document.getElementById("id").innerHTML = "Resposta id: " +id
+            document.getElementById("title").innerHTML = "Resposta title: " +title
+
+        })
+    .catch(
+        err => console.log(erro)
+        )
+</script>
+
+</html>
