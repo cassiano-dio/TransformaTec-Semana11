@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busca CEP com async/await</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+//Busca por PROMISE
+    // url do ponto de acesso da API
+    const viacep_url = "https://viacep.com.br/ws/01001000/json/"
+
+    // Busca CEP com Promise()
+    // Tenta obter o resultado de uma promessa
+    fetch(viacep_url)
+    // Se recebeu a resposta, então trata o resultado
+    .then(
+        result => result.json()
+    )
+    // Se recebeu a resposta, então trata o resultado
+    .then(
+        cep_json => {
+                console.log("Resultado da Consulta: ", cep_json)
+                return cep_json
+            }
+    // Se recebeu a resposta, então trata o resultado
+    ).then(
+        cep_json => {
+            console.log("RUA:", cep_json.logradouro)
+            return cep_json
+        }
+    // Se recebeu a resposta, então trata o resultado    
+    ).then(
+        cep_json => console.log("RUA:", cep_json.localidade)
+    )
+    // Se recebeu erro, trata o erro
+    .catch(
+        err => console.log(err)
+    )
+
+// Busca por ASYNC/AWAIT
+
+// async function buscaCep(){
+
+// }
+
+// Função assíncrona para buscar o CEP
+const buscaCep = async () => {
+
+    // url do endpoint da api
+    const viacep_url = "https://viacep.com.br/ws/01001000/json/"
+
+    //tentar resolver a promessa do fetch()
+    try {
+        
+        //recebe o retorno da busca na API
+        const endereco = await fetch(viacep_url)
+
+        //transforma pra json o resultado da consulta
+        const json_endereco = await endereco.json()
+
+        //imprime o resultado da consulta
+        console.log(json_endereco)
+
+        // retorna para outra função o resultado da promessa
+        return json_endereco
+
+
+    } catch (err) {
+        console.log(err)
+    }
+
+}
+
+
+const imprimeRua = async () => {
+
+    // recebendo o resultado do retorno da função buscaCep()
+    const json_end = await buscaCep()
+
+    console.log("RUA Async/Await: ", json_end.logradouro)
+
+    await imprimeCidade(json_end)
+}
+
+const imprimeCidade = async (json_end) => {
+
+
+    console.log("CIDADE Async/Await: ", json_end.localidade)
+
+}
+
+// Chamada da função imprimeRua()
+imprimeRua()
+
+
+
+</script>
+
+
+</html>

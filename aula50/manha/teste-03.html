@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busca CEP Dinâmicdo</title>
+</head>
+<body>
+    
+<div id="container">
+
+    <div id="form">
+
+        <input type="text" id="cep" placeholder="CEP">
+        <input type="submit" id="btn_cep" onclick="displayData()" value="Pesquisar o CEP">
+        <input type="submit" id="btn_street" onclick="displayStreet()" value="Pesquisar a Rua do CEP">
+        <input type="submit" value="Limpar" onclick="clear()">
+        
+        <p id="address"></p>
+        <p id="city"></p>
+        <p id="district"></p>
+    </div>
+
+    <p id="error"></p>
+
+</div>
+
+<script>
+
+    const address = document.getElementById("address")
+    const city = document.getElementById("city")
+    const district = document.getElementById("district")
+
+
+    const clear = () => {
+
+        console.log("CLEAR")
+
+        address.innerHTML = ""
+        city.innerHTML = ""
+        district.innerHTML = ""
+    }
+
+    const displayData = async () => {
+
+        const json_address = await getCep()
+
+        address.innerHTML = json_address.logradouro
+        city.innerHTML = json_address.localidade
+        district.innerHTML = json_address.bairro
+
+    } 
+
+    const getCep = async () => {
+
+        const cep = document.getElementById("cep").value
+
+        const viacep_url = `https://viacep.com.br/ws/${cep}/json/`
+
+        console.log(viacep_url)
+
+        try {
+            
+            const response = await fetch(viacep_url)
+            const json_response = await response.json()
+
+            console.log(json_response)
+
+            //await displayData(json_response)
+
+            return json_response
+
+        } catch (error) {
+            document.getElementById("error").innerHTML = error.message
+        }
+
+    }
+
+    const displayStreet = async() =>{
+
+        const json_address = await getCep()
+
+        console.log("RUA DO CEP: ", json_address.logradouro)
+
+        address.innerHTML = json_address.logradouro
+
+    }
+
+</script>
+
+</body>
+</html>

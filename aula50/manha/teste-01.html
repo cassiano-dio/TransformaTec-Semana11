@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busca CEP com async/await</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+//Busca por PROMISE
+    // url do ponto de acesso da API
+    const viacep_url = "https://viacep.com.br/ws/01001000/json/"
+
+    // Busca CEP com Promise()
+    // Tenta obter o resultado de uma promessa
+    fetch(viacep_url)
+    // Se recebeu a resposta, então trata o resultado
+    .then(
+        result => result.json()
+    )
+    // Se recebeu a resposta, então trata o resultado
+    .then(
+        cep_json => {
+                console.log("Resultado da Consulta: ", cep_json)
+                return cep_json
+            }
+    // Se recebeu a resposta, então trata o resultado
+    ).then(
+        cep_json => {
+            console.log("RUA:", cep_json.logradouro)
+            return cep_json
+        }
+    // Se recebeu a resposta, então trata o resultado    
+    ).then(
+        cep_json => console.log("RUA:", cep_json.localidade)
+    )
+    // Se recebeu erro, trata o erro
+    .catch(
+        err => console.log(err)
+    )
+
+
+
+
+</script>
+
+
+</html>
