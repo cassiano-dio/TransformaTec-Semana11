@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+
+    <div id="container" style="padding: 12px">
+        <h1>Inserir POST</h1>
+        <input type="text" id="post_title" placeholder="Título do POST">
+        <input type="text" name="" id="post_user_id" placeholder="Id do usuário do POST">
+        <input type="text" name="" id="post_body" placeholder="Conteúdo do POST">
+        <input type="submit" id="create_todo" value="Cadastrar POST" onclick="createPost()">
+        <p id="post"></p>
+
+    </div>
+
+    <div id="container" style="padding: 12px;">
+        <h1>Pesquisar POST</h1>
+        <input type="text" id="p_id" placeholder="ID do POST" >
+        <input type="submit" name="" id="p_search" value="Pesquisar POST" onclick="getPost()">
+        <p id="id"></p>
+        <p id="title"></p>
+        <p id="userId"></p>
+        <p id="body"></p>
+    </div>
+
+    <div id="container" style="padding: 12px;">
+        <h1>Pesquisar TODO</h1>
+        <input type="text" id="id" placeholder="ID da tarefa">
+        <input type="submit" name="" id="todo_search" value="Pesquisar" onclick="getTodo()">
+        <p id="id"></p>
+        <p id="title"></p>
+        <p id="userId"></p>
+        <p id="completed"></p>
+    </div>
+</body>
+
+
+<script>
+    function getTodo(){
+        const id = document.getElementById("id").value
+        const todo_url = `https://jsonplaceholder.typicode.com/todos/${id}`
+        fetch(todo_url)
+        //resultado da promessa de retorno do dado pesquisado do servidor
+        .then(response => response.json())
+        //resultado da promessa de converter o dado retornado do servidor para JSON
+        .then((json) => {
+            //apresentação dos dados retornados do servidor
+            document.getElementById("id").innerHTML = "Id do TODO: " + json.id
+            document.getElementById("title").innerHTML =  "Título do TODO: " + json.title
+            document.getElementById("userId").innerHTML =  "Id do usuário do TODO: " + json.userId
+            document.getElementById("completed").innerHTML =  "Status de completo do TODO: " + json.completed
+            
+        })
+        .catch(err => console.log(erro))
+    }
+
+    function getPost(){
+        const p_id = document.getElementById("p_id").value
+        const p_url = `https://jsonplaceholder.typicode.com/posts/${p_id}`
+        fetch(p_url)
+        //resultado da promessa de retorno do dado pesquisado do servidor
+        .then(response => response.json())
+        //resultado da promessa de converter o dado retornado do servidor para JSON
+        .then((json) => {
+            //apresentação dos dados retornados do servidor
+            document.getElementById("id").innerHTML = "Id do POST: " + json.id
+            document.getElementById("title").innerHTML =  "Título do POST: " + json.title
+            document.getElementById("userId").innerHTML =  "Id do usuário do POST: " + json.userId
+            document.getElementById("body").innerHTML =  "Status de completo do TODO: " + json.body
+            
+        })
+        .catch(err => console.log(erro))
+    }
+    
+
+    function createPost(){
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+            title:  document.getElementById("post_title").value,
+            body: document.getElementById("post_user_id").value,
+            userId: document.getElementById("post_body").value,
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+        })
+        .then((response) => response.json())
+        .then((json) => {
+                            console.log(json)
+                            const post = JSON.stringify(json)
+                            document.getElementById("post").innerHTML =  "Post cadastrado:  " + post
+                        });
+    }
+
+</script>
+</html>
